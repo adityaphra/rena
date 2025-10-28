@@ -33,11 +33,10 @@ var rootCmd = &cobra.Command{
 				fmt.Println(err)
 				os.Exit(1)
 			}
-
 			scripts = append(scripts, result...)
 		}
 
-		// commands from flag executed first
+		// commands from script executed first
 		commands = append(scripts, commands...)
 
 	},
@@ -58,7 +57,6 @@ var rootCmd = &cobra.Command{
 		for _, v := range args {
 			newFile := CreateFile(v)
 			oldFile := newFile
-
 			// do transformation
 			for _, c := range parsed {
 				if c != nil {
@@ -72,16 +70,13 @@ var rootCmd = &cobra.Command{
 
 			newFilePath := newFile.getFullPath()
 			oldFilePath := oldFile.getFullPath()
-
 			if !IsSafeName(newFile) {
 				fmt.Printf("Skipped because the end result contains a forbidden character: '%v' <- '%v'\n", newFilePath, oldFilePath)
 				continue
 			}
-
 			if newFilePath == oldFilePath || newFilePath == "" || oldFilePath == "" {
 				continue
 			}
-
 			if value, conflict := conflictsMap[newFilePath]; conflict {
 				fmt.Println("Conflicts have been detected and must be resolved manually:")
 				fmt.Printf("- '%v' -> '%v'\n", value, newFilePath)
@@ -108,14 +103,11 @@ var rootCmd = &cobra.Command{
 					fmt.Printf("rename '%v' -> '%v'\n", oldFilePath, newFilePath)
 				}
 			}
-
 			fmt.Print("Are you sure? (y/n): ")
-
 			reader := bufio.NewReader(os.Stdin)
 			input, _ := reader.ReadString('\n')
 			input = strings.TrimSpace(input)
 			input = strings.ToLower(input)
-
 			if !(input == "" || input == "y" || input == "yes") {
 				return
 			}
@@ -124,7 +116,6 @@ var rootCmd = &cobra.Command{
 		for i, value := range old {
 			oldFilePath := value.getFullPath()
 			newFilePath := new[i].getFullPath()
-
 			if _, err := os.Stat(oldFilePath); os.IsNotExist(err) {
 				fmt.Printf("%v: no such file or directory\n", oldFilePath)
 				continue
@@ -159,7 +150,6 @@ func readFile(filePath string) ([]string, error) {
 	if err != nil {
 		return []string{}, err
 	}
-
 	lines := strings.Split(string(data), "\n")
 	return lines, nil
 }

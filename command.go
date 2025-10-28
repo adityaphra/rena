@@ -30,7 +30,6 @@ func (s searchCommand) Execute(f *file) error {
 	} else {
 		pattern = regexp.QuoteMeta(s.search)
 	}
-
 	if !s.matchCase {
 		pattern = "(?i)" + pattern
 	}
@@ -90,7 +89,6 @@ func (d deleteCommand) Execute(f *file) error {
 	} else {
 		pattern = regexp.QuoteMeta(d.value)
 	}
-
 	if !d.matchCase {
 		pattern = "(?i)" + pattern
 	}
@@ -142,7 +140,6 @@ func (m moveCommand) Execute(f *file) error {
 	} else {
 		pattern = regexp.QuoteMeta(m.pattern)
 	}
-
 	if !m.matchCase {
 		pattern = "(?i)" + pattern
 	}

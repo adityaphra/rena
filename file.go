@@ -41,7 +41,6 @@ func CreateFile(filePath string) file {
 
 func RenameFile(old file, new file) error {
 	newBaseDir := new.baseDir
-
 	if old.baseDir != new.baseDir {
 		info, err := os.Stat(newBaseDir)
 		if os.IsNotExist(err) {
@@ -55,7 +54,6 @@ func RenameFile(old file, new file) error {
 
 	oldPath := expandPath(old.getFullPath())
 	newPath := expandPath(new.getFullPath())
-
 	err := os.Rename(oldPath, newPath)
 	if err == nil {
 		return nil
@@ -92,7 +90,6 @@ func expandPath(p string) string {
 			return path.Join(homeDir, p[2:])
 		}
 	}
-
 	return p
 }
 

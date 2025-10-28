@@ -13,12 +13,10 @@ func ParseCommands(commands []string) ([]command, error) {
 		if c == "" {
 			continue
 		}
-
 		result, err := parseCommand(c)
 		if err != nil {
 			return nil, err
 		}
-
 		parsed[i] = result
 	}
 	return parsed, nil
@@ -35,7 +33,6 @@ func parseCommand(text string) (command, error) {
 	if len(text) < 2 {
 		return nil, fmt.Errorf("Invalid format: %v", text)
 	}
-	commandType := text[0]
 
 	var separator byte
 	for _, sep := range []byte{',', ';', '/', '|'} {
@@ -44,7 +41,6 @@ func parseCommand(text string) (command, error) {
 			break
 		}
 	}
-
 	if separator == 0 {
 		return nil, fmt.Errorf("Separator is not supported: %v", text[1])
 	}
@@ -56,6 +52,7 @@ func parseCommand(text string) (command, error) {
 		return nil, fmt.Errorf("Read error: '%v'", text)
 	}
 
+	commandType := text[0]
 	for _, record := range records {
 		parser, ok := parsers[commandType]
 		if ok {
@@ -68,7 +65,6 @@ func parseCommand(text string) (command, error) {
 	}
 
 	return nil, fmt.Errorf("Uknown command: '%v'", text)
-
 }
 
 // format: s, search, replace, flags
@@ -89,7 +85,6 @@ func parseSearch(record []string) (command, error) {
 	matchCase := strings.Contains(flags, "m")
 	regexMode := strings.Contains(flags, "r")
 	whiteSpace := strings.Contains(flags, "w")
-
 	return searchCommand{search, replace, matchCase, regexMode, whiteSpace}, nil
 }
 
@@ -110,7 +105,6 @@ func parseDelete(record []string) (command, error) {
 	matchCase := strings.Contains(flags, "m")
 	regexMode := strings.Contains(flags, "r")
 	whiteSpace := strings.Contains(flags, "w")
-
 	return deleteCommand{value, matchCase, regexMode, whiteSpace}, nil
 }
 
@@ -120,7 +114,6 @@ func parseTemplate(record []string) (command, error) {
 	if len(record) != 2 {
 		return nil, errors.New("Invalid format")
 	}
-
 	return templateCommand{record[1]}, nil
 }
 
@@ -141,6 +134,5 @@ func parseMove(record []string) (command, error) {
 	flags := record[3]
 	matchCase := strings.Contains(flags, "m")
 	regexMode := strings.Contains(flags, "r")
-
 	return moveCommand{pattern, destinationDir, matchCase, regexMode}, nil
 }

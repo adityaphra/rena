@@ -31,14 +31,14 @@ s,search,replace,[flags]
 
 **Flags (optional):**
 
-- `r` – enable regex
-- `m` – match case
+- `r` - enable regex
+- `m` - match case
 - `w` - keep duplicate whitespace
 
 **Variables:**
 
-- `%index` – regex capture group index
-- `%name` – regex capture group name
+- `%index` - regex capture group index
+- `%name` - regex capture group name
 
 **Example:**
 
@@ -57,8 +57,8 @@ d,pattern,[flags]
 
 **Flags (optional):**
 
-- `r` – enable regex
-- `m` – match case
+- `r` - enable regex
+- `m` - match case
 - `w` - keep duplicate whitespace
 
 **Example:**
@@ -78,9 +78,9 @@ t,template
 
 **Variables:**
 
-- `%f` – full filename with extension
-- `%n` – filename without extension
-- `%x` – file extension
+- `%f` - full filename with extension
+- `%n` - filename without extension
+- `%x` - file extension
 
 **Example:**
 
@@ -99,8 +99,8 @@ m,pattern,destinationDirectory,[flags]
 
 **Flags (optional):**
 
-- `r` – enable regex
-- `m` – match case
+- `r` - enable regex
+- `m` - match case
 
 **Example:**
 
