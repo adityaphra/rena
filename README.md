@@ -33,6 +33,7 @@ s,search,replace,[flags]
 
 - `r` – enable regex
 - `m` – match case
+- `w` - keep duplicate whitespace
 
 **Variables:**
 
@@ -58,6 +59,7 @@ d,pattern,[flags]
 
 - `r` – enable regex
 - `m` – match case
+- `w` - keep duplicate whitespace
 
 **Example:**
 

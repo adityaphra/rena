@@ -16,10 +16,11 @@ type command interface {
 }
 
 type searchCommand struct {
-	search    string
-	replace   string
-	matchCase bool
-	regexMode bool
+	search     string
+	replace    string
+	matchCase  bool
+	regexMode  bool
+	whiteSpace bool
 }
 
 func (s searchCommand) Execute(f *file) error {
@@ -62,19 +63,24 @@ func (s searchCommand) Execute(f *file) error {
 		}
 	}
 
-	whiteSpaceRegex := regexp.MustCompile(WhiteSpacePattern)
-	fullName = whiteSpaceRegex.ReplaceAllString(fullName, " ")
-	fullName = strings.Trim(fullName, " ")
+	if s.whiteSpace {
+		f.setFullName(fullName)
+	} else {
+		whiteSpaceRegex := regexp.MustCompile(WhiteSpacePattern)
+		fullName = whiteSpaceRegex.ReplaceAllString(fullName, " ")
+		fullName = strings.Trim(fullName, " ")
+		f.setFullName(fullName)
+		f.name = strings.Trim(f.name, " ")
+	}
 
-	f.setFullName(fullName)
-	f.name = strings.Trim(f.name, " ")
 	return nil
 }
 
 type deleteCommand struct {
-	value     string
-	matchCase bool
-	regexMode bool
+	value      string
+	matchCase  bool
+	regexMode  bool
+	whiteSpace bool
 }
 
 func (d deleteCommand) Execute(f *file) error {
@@ -96,12 +102,17 @@ func (d deleteCommand) Execute(f *file) error {
 
 	fullName := f.getFullName()
 	fullName = re.ReplaceAllString(fullName, "")
-	whiteSpaceRegex := regexp.MustCompile(WhiteSpacePattern)
-	fullName = whiteSpaceRegex.ReplaceAllString(fullName, " ")
-	fullName = strings.Trim(fullName, " ")
 
-	f.setFullName(fullName)
-	f.name = strings.Trim(f.name, " ")
+	if d.whiteSpace {
+		f.setFullName(fullName)
+	} else {
+		whiteSpaceRegex := regexp.MustCompile(WhiteSpacePattern)
+		fullName = whiteSpaceRegex.ReplaceAllString(fullName, " ")
+		fullName = strings.Trim(fullName, " ")
+		f.setFullName(fullName)
+		f.name = strings.Trim(f.name, " ")
+	}
+
 	return nil
 }
 

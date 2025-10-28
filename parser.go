@@ -75,29 +75,22 @@ func parseCommand(text string) (command, error) {
 // index   0  1       2        3
 func parseSearch(record []string) (command, error) {
 	length := len(record)
-
 	if length < 3 || length > 4 {
 		return nil, errors.New("Invalid format")
 	}
 
 	search := record[1]
 	replace := record[2]
-
 	if length == 3 {
 		return searchCommand{search: search, replace: replace}, nil
 	}
 
-	var matchCase bool
-	if strings.Contains(record[3], "m") {
-		matchCase = true
-	}
+	flags := record[3]
+	matchCase := strings.Contains(flags, "m")
+	regexMode := strings.Contains(flags, "r")
+	whiteSpace := strings.Contains(flags, "w")
 
-	var regexMode bool
-	if strings.Contains(record[3], "r") {
-		regexMode = true
-	}
-
-	return searchCommand{search, replace, matchCase, regexMode}, nil
+	return searchCommand{search, replace, matchCase, regexMode, whiteSpace}, nil
 }
 
 // format: d, value, flags
@@ -109,23 +102,16 @@ func parseDelete(record []string) (command, error) {
 	}
 
 	value := record[1]
-
 	if length == 2 {
 		return deleteCommand{value: value}, nil
 	}
 
 	flags := record[2]
-	var matchCase bool
-	if strings.Contains(flags, "m") {
-		matchCase = true
-	}
+	matchCase := strings.Contains(flags, "m")
+	regexMode := strings.Contains(flags, "r")
+	whiteSpace := strings.Contains(flags, "w")
 
-	var regexMode bool
-	if strings.Contains(flags, "r") {
-		regexMode = true
-	}
-
-	return deleteCommand{value, matchCase, regexMode}, nil
+	return deleteCommand{value, matchCase, regexMode, whiteSpace}, nil
 }
 
 // format: t, template
@@ -141,26 +127,20 @@ func parseTemplate(record []string) (command, error) {
 // format: m, pattern, destinationDirectory, flags
 // index   0  1        2                     3
 func parseMove(record []string) (command, error) {
-	if len(record) < 3 || len(record) > 4 {
+	length := len(record)
+	if length < 3 || length > 4 {
 		return nil, errors.New("Invalid format")
 	}
 
 	pattern := record[1]
 	destinationDir := record[2]
-	if len(record) == 3 {
+	if length == 3 {
 		return moveCommand{pattern: pattern, destinationDir: destinationDir}, nil
 	}
 
 	flags := record[3]
-	var matchCase bool
-	if strings.Contains(flags, "m") {
-		matchCase = true
-	}
-
-	var regexMode bool
-	if strings.Contains(flags, "r") {
-		regexMode = true
-	}
+	matchCase := strings.Contains(flags, "m")
+	regexMode := strings.Contains(flags, "r")
 
 	return moveCommand{pattern, destinationDir, matchCase, regexMode}, nil
 }

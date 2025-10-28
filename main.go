@@ -19,7 +19,7 @@ var rootCmd = &cobra.Command{
 	Use:     "rena [flags] [file]...",
 	Short:   "A simple utility to rename multiple files",
 	Args:    cobra.ArbitraryArgs,
-	Version: "v0.1.0",
+	Version: "v0.2.0",
 	PreRun: func(cmd *cobra.Command, args []string) {
 		if cmd.Flags().NFlag() == 0 && cmd.Flags().NArg() == 0 {
 			cmd.Help()
