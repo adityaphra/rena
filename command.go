@@ -149,8 +149,23 @@ func (m moveCommand) Execute(f *file) error {
 		return fmt.Errorf("Invalid regex: '%v'", m.pattern)
 	}
 
-	if re.MatchString(f.getFullName()) {
-		f.baseDir = m.destinationDir
+	fullName := f.getFullName()
+	if re.MatchString(fullName) {
+		destinationDir := m.destinationDir
+		if m.regexMode {
+			matches := re.FindStringSubmatch(fullName)
+			for i, match := range matches {
+				if match != "" {
+					destinationDir = PercentReplace(destinationDir, strconv.Itoa(i), match)
+				}
+			}
+			for i, name := range re.SubexpNames() {
+				if name != "" {
+					destinationDir = PercentReplace(destinationDir, name, matches[i])
+				}
+			}
+		}
+		f.baseDir = destinationDir
 	}
 
 	return nil

@@ -36,6 +36,8 @@ func TestCommand(t *testing.T) {
 		"m,Sa.l,/home/user/Better Call Saul,rm": "/home/user/Better Call Saul/Better Call Saul - S0E01.mkv",
 		"m,saul,/home/user/Better Call Saul,m":  "/home/user/Better Call Saul - S0E01.mkv",
 		"m,Saul,/home/user/Better Call Saul,m":  "/home/user/Better Call Saul/Better Call Saul - S0E01.mkv",
+		"m,(.*) - .*,/home/user/%1,r":           "/home/user/Better Call Saul/Better Call Saul - S0E01.mkv",
+		"m,(?P<first>Call) (?P<second>Saul),/home/user/%second-%first,r": "/home/user/Saul-Call/Better Call Saul - S0E01.mkv",
 	}
 
 	passCount := 0
