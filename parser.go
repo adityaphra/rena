@@ -35,7 +35,7 @@ func parseCommand(text string) (command, error) {
 	}
 
 	var separator byte
-	for _, sep := range []byte{',', ';', '/', '|'} {
+	for _, sep := range []byte(",;/|\t") {
 		if sep == text[1] {
 			separator = sep
 			break

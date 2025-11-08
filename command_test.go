@@ -10,9 +10,9 @@ func TestCommand(t *testing.T) {
 	filePath := f.getFullPath()
 	testCases := map[string]string{
 		"s/saul/Saul Goodman":                   "/home/user/Better Call Saul Goodman - S0E01.mkv",
-		"s/saul/Saul Goodman/m":                 "/home/user/Better Call Saul - S0E01.mkv",
-		"s/sa(ul)/%0/r":                         "/home/user/Better Call Saul - S0E01.mkv",
-		"s/sa(ul)/%1/r":                         "/home/user/Better Call ul - S0E01.mkv",
+		"s\tsaul\tSaul Goodman\tm":              "/home/user/Better Call Saul - S0E01.mkv",
+		"s;sa(ul);%0;r":                         "/home/user/Better Call Saul - S0E01.mkv",
+		"s|sa(ul)|%1|r":                         "/home/user/Better Call ul - S0E01.mkv",
 		"s/sa(ul)/%1/rm":                        "/home/user/Better Call Saul - S0E01.mkv",
 		"s/(sa)(ul)/%2%1/r":                     "/home/user/Better Call ulSa - S0E01.mkv",
 		"s/sa(?P<first>ul)/%first/r":            "/home/user/Better Call ul - S0E01.mkv",
